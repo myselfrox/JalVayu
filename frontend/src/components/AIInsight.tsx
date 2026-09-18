@@ -1,0 +1,3 @@
+import { BrainCircuit } from 'lucide-react';
+import { AIResult } from '../types/weather';
+export default function AIInsight({ai}:{ai:AIResult}){return <section className="panel"><div className="eyebrow"><BrainCircuit size={14}/> AI weather intelligence</div><h2 style={{margin:'8px 0'}}>Anomaly assessment <span className="risk risk-extreme">{ai.risk_level}</span></h2><p className="muted" style={{lineHeight:1.6}}>{ai.explanation}</p><div className="metric">Isolation Forest score <b>{ai.isolation_forest_score.toFixed(2)}</b></div><div className="metric">Confidence <b>{Math.round(ai.confidence*100)}%</b></div><div className="bar"><span style={{width:`${ai.confidence*100}%`}}/></div><div className="metric">Signals: {ai.detected_variables.join(' · ')}</div></section>}

@@ -1,0 +1,3 @@
+import { Activity, BarChart3, CloudLightning, LayoutDashboard, Radio, ShieldAlert } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+export default function Header(){return <header className="header"><NavLink className="brand" to="/"><span className="brand-mark"><CloudLightning size={20}/></span><span>ZIGGY INTELLIGENCE<small>Extreme weather intelligence</small></span></NavLink><nav className="nav"><NavLink to="/dashboard"><LayoutDashboard size={14}/> Dashboard</NavLink><NavLink to="/events"><ShieldAlert size={14}/> Extreme Events</NavLink><NavLink to="/analytics"><BarChart3 size={14}/> Analytics</NavLink></nav><div className="status"><span className="dot"/> <Radio size={14}/> Prototype data active</div></header>}
