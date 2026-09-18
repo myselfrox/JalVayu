@@ -1,72 +1,67 @@
-import { ForecastPoint } from '../types/weather';
+import React from "react";
 
-type WeatherStatKey =
-  | 'temperature'
-  | 'rainfall'
-  | 'wind_speed'
-  | 'apparent_temperature';
+type WeatherStatsProps = {
+  temperature?: number;
+  rainfall?: number;
+  windSpeed?: number;
+  heatIndex?: number;
+};
 
-type WeatherStat = {
-  key: WeatherStatKey;
-  value: number;
+type StatItem = {
+  label: string;
+  value: string;
   unit: string;
-  anomaly: number;
 };
 
-const labels: Record<WeatherStatKey, string> = {
-  temperature: 'Temperature',
-  rainfall: 'Rainfall',
-  wind_speed: 'Wind',
-  apparent_temperature: 'Feels like',
-};
-
-const formatValue = (value: number): string => value.toFixed(1);
-
-export default function WeatherStats({ point }: { point: ForecastPoint }) {
-  const items: WeatherStat[] = [
+const WeatherStats: React.FC<WeatherStatsProps> = ({
+  temperature = 0,
+  rainfall = 0,
+  windSpeed = 0,
+  heatIndex = 0,
+}) => {
+  const items: StatItem[] = [
     {
-      key: 'temperature',
-      value: point.temperature,
-      unit: '°C',
-      anomaly: point.anomaly.temperature,
+      label: "Temperature",
+      value: temperature.toFixed(1),
+      unit: "°C",
     },
     {
-      key: 'rainfall',
-      value: point.rainfall,
-      unit: 'mm',
-      anomaly: point.anomaly.rainfall,
+      label: "Rainfall",
+      value: rainfall.toFixed(1),
+      unit: "mm",
     },
     {
-      key: 'wind_speed',
-      value: point.wind_speed,
-      unit: 'km/h',
-      anomaly: point.anomaly.wind,
+      label: "Wind Speed",
+      value: windSpeed.toFixed(1),
+      unit: "km/h",
     },
     {
-      key: 'apparent_temperature',
-      value: point.apparent_temperature,
-      unit: '°C',
-      anomaly: point.anomaly.heat,
+      label: "Heat Index",
+      value: heatIndex.toFixed(1),
+      unit: "°C",
     },
   ];
 
   return (
-    <section className="panel">
-      <div className="eyebrow">Weather statistics</div>
-      <div className="stats-grid">
-        {items.map((item) => (
-          <div className="stat-card" key={item.key}>
-            <div className="muted">{labels[item.key]}</div>
-            <div className="stat-value">
-              {formatValue(item.value)} <span>{item.unit}</span>
-            </div>
-            <div className={item.anomaly >= 0 ? 'anomaly positive' : 'anomaly negative'}>
-              {item.anomaly >= 0 ? '+' : ''}
-              {formatValue(item.anomaly)} anomaly
-            </div>
+    <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((item) => (
+        <div
+          key={item.label}
+          className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur"
+        >
+          <p className="text-sm text-white/60">{item.label}</p>
+
+          <div className="mt-2 flex items-baseline gap-1">
+            <span className="text-2xl font-semibold text-white">
+              {item.value}
+            </span>
+
+            <span className="text-sm text-white/50">{item.unit}</span>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </section>
   );
-}
+};
+
+export default WeatherStats;
